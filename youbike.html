@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Youbike</title>
+  <link rel="stylesheet" href="reset.css">
+  <script src="jQuery3.6.0.js"></script>
+  <style>
+    .youbike-list{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .each_station{
+      width: 500px;
+      margin: 10px;
+      padding: 5px;
+      border: 1px solid gray;
+      border-radius: 5px;
+    }
+    .each_station li{
+      line-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="search">
+    <select id="search_input_disc" name="district">
+      <option value="">行政區</option>
+      <option value="中正區">中正區</option>
+      <option value="萬華區">萬華區</option>
+      <option value="大同區">大同區</option>
+      <option value="中山區">中山區</option>
+      <option value="松山區">松山區</option>
+      <option value="大安區">大安區</option>
+      <option value="信義區">信義區</option>
+      <option value="內湖區">內湖區</option>
+      <option value="南港區">南港區</option>
+      <option value="士林區">士林區</option>
+      <option value="北投區">北投區</option>
+      <option value="文山區">文山區</option>
+    </select>
+    <div class="buttons">
+      <button id="searchbtn">Search</button>
+    </div>
+  </div>
+
+
+  <div class='youbike_list'>
+
+  </div>
+
+
+  <script src="youbike.js"></script>
+</body>
+</html>
