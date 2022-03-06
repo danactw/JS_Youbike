@@ -1,9 +1,13 @@
+html {
+  background-color: #dbead5;
+}
+
 :root{
   --col-gap:10px;
 }
 
 .container{
-  max-width: 1200px;
+  max-width: 1500px;
   margin: auto;
   padding: 10px;
 }
@@ -32,10 +36,6 @@
 .col-10{width: 83.333333%;}
 .col-11{width: 91.666666%;}
 .col-12{width: 100%;      }
-
-img{
-  width: 100%;
-}
 
 @media screen and (min-width:768px){
   .col-md-1{width: 8.333333%;  }
@@ -82,50 +82,86 @@ img{
   .col-xl-12{width: 100%;      }
 }
 
+#title {
+  text-align: center;
+  font-size: 50px;
+  margin: 30px 0 10px 0;
+}
 
 .search{
   width: 500px;
   margin: 30px auto;
+  display: flex;
+  justify-content: center;
 }
 
 #search_input_disc {
-  /* width: 300px; */
-  height: 30px;
+  width: 100px;
+  height: 50px;
+  padding: 10px;
+  font-size: 20px;
   border-radius: 5px;
 }
 
 #search_input_txt {
-  width: 200px;
-  height: 30px;
-  border-radius: 5px;
-  padding: 0;
+  width: 250px;
+  height: 50px;
+  margin: 0 10px;
+  padding: 0 5px;
+  font-size: 20px;
   border-width: 1px;
+  border-radius: 5px;
 }
 
 #searchbtn {
-  height: 30px;
+  height: 50px;
+  font-size: 20px;
   border-radius: 5px;
 }
 
 .eachStation {
-  width: 380px;
-  border: 1px solid black;
-  margin: 5px;
+  width: 450px;
+  margin: 10px;
+  font-size: 18px;
+  background-color: #93bf85;
+  border-radius: 10px;
+}
+
+.eachStation:hover {
+  cursor: pointer;
+  transform: translateY(-10px);
 }
 
 tr {
-  line-height: 25px;
+  line-height: 40px;
 }
 
 td {
   text-align: center;
-  padding: 0 5px;
 }
 
 .stationName {
   font-weight: bolder;
+  font-size: 25px;
+  line-height: 50px;
+}
+
+.addressName {
+  background-color: #fff;
 }
 
 .setEven {
   width: 50%;
+  background-color: #fff;
+  border-bottom: 1px dashed #2b961f;
+  border-top: 1px dashed #2b961f;
+}
+
+.addBorder {
+  border-left: 1px dashed #2b961f;
+}
+
+.unavailable {
+  color: red;
+  font-weight: bolder;
 }

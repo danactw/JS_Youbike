@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const rawData = []
   const searchDistrict = document.querySelector('#search_input_disc')
   const searchkeyword = document.querySelector('#search_input_txt')
-  const itemBox = document.querySelector('#itemBox')
+  const itemsBox = document.querySelector('#itemsBox')
   const searchBtn = document.querySelector('#searchbtn')
 
   // fetch(url)
@@ -12,94 +12,98 @@ document.addEventListener('DOMContentLoaded', ()=>{
   //     rawData.push(...data)
   //   })
 
-    async function fetchData() {
-      try{
-        const response = await fetch(url)
-        const data = await response.json()
-        rawData.push(...data)
-      } catch (err) {
-        console.log(err);
-      }
+  async function fetchData() {
+    try{
+      const response = await fetch(url)
+      const data = await response.json()
+      rawData.push(...data)
+    } catch (err) {
+      console.log(err);
     }
+  }
     
-    fetchData()
+  fetchData()
     
-    // console.log(rawData);
+  // console.log(rawData);
 
-    function findMatch(district, keyword, rawData) {
+  function findMatch(district, keyword, rawData) {
+    if (district === '' && keyword ==='') {
+      alert('請選擇行政區或輸入街道關鍵字')
+    } else {
       return rawData.filter(spot => {
-        if (district === '' && keyword ==='') {
-          itemBox.textContent = '請選擇行政區或輸入街道關鍵字'
-          // alert('請選擇行政區或輸入街道關鍵字')
-          // 為什麼使用alert會無限迴圈??
-        } else if (district && keyword==='') {
+        if (district && keyword==='') {
           return spot.sarea === district
         } else {
           return spot.ar.includes(keyword)
         }
       })
     }
+  }
 
-    function displaySpot(e){
-      itemBox.textContent = ''
-      const filteredData = findMatch(searchDistrict.value, searchkeyword.value, rawData)
-      // if (filteredData.length === 0) {
-      //   itemBox.textContent = `抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字`
-      // }
-      // 為什麼會吃掉在findMatch裡面itemBox.textContent = '請選擇行政區或輸入街道關鍵字'的結果？？
-      for (let i = 0; i < filteredData.length; i++) {
-        const each_station = document.createElement('table')
-        each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
+  function displaySpot(e){
+    itemsBox.textContent = ''
+    const filteredData = findMatch(searchDistrict.value, searchkeyword.value, rawData)
+    // if (filteredData.length === 0) {
+    //   itemsBox.textContent = `抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字`
+    // }
+    // 為什麼會吃掉在findMatch裡面itemsBox.textContent = '請選擇行政區或輸入街道關鍵字'的結果？？
+    for (let i = 0; i < filteredData.length; i++) {
+      const each_station = document.createElement('table')
+      each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
 
-        const stationNameBox = document.createElement('tr')
-        const stationName = document.createElement('td')
-        stationName.textContent = filteredData[i].sna.slice(11)
-        stationName.setAttribute('colspan', '2')
-        stationName.classList.add('stationName')
-        stationNameBox.append(stationName)
+      const stationNameBox = document.createElement('tr')
+      const stationName = document.createElement('td')
+      stationName.textContent = filteredData[i].sna.slice(11)
+      stationName.setAttribute('colspan', '2')
+      stationName.classList.add('stationName')
+      stationNameBox.append(stationName)
 
-        const addressNameBox = document.createElement('tr')
-        const addressName = document.createElement('td')
-        addressName.textContent = filteredData[i].ar
-        addressName.setAttribute('colspan', '2')
-        addressNameBox.append(addressName)
+      const addressNameBox = document.createElement('tr')
+      const addressName = document.createElement('td')
+      addressName.textContent = `(${filteredData[i].sarea}) ${filteredData[i].ar}`
+      addressName.setAttribute('colspan', '2')
+      addressName.classList.add('addressName')
+      addressNameBox.append(addressName)
 
-        const quantityNameBox = document.createElement('tr')
-        const totalQuantityName = document.createElement('td')
-        totalQuantityName.textContent = '總停車格'
-        totalQuantityName.classList.add('setEven')
-        const availableQuantityName = document.createElement('td')
-        availableQuantityName.textContent = '目前車輛數量'
-        availableQuantityName.classList.add('setEven')
-        quantityNameBox.append(totalQuantityName,availableQuantityName)
+      const quantityNameBox = document.createElement('tr')
+      const totalQuantityName = document.createElement('td')
+      totalQuantityName.textContent = '總停車格'
+      totalQuantityName.classList.add('setEven')
+      const availableQuantityName = document.createElement('td')
+      availableQuantityName.textContent = '目前車輛數量'
+      availableQuantityName.classList.add('setEven', 'addBorder')
+      quantityNameBox.append(totalQuantityName,availableQuantityName)
 
-        const quantityBox = document.createElement('tr')
-        const totalQuantity = document.createElement('td')
-        totalQuantity.textContent = filteredData[i].tot
-        totalQuantity.classList.add('setEven')
-        const availableQuantity = document.createElement('td')
-        availableQuantity.textContent = filteredData[i].sbi
-        availableQuantity.classList.add('setEven')
-        quantityBox.append(totalQuantity,availableQuantity)
-
-        const updatedTimeNameBox = document.createElement('tr')
-        const updatedTime = document.createElement('td')
-        updatedTime.textContent = `資料更新時間 ${filteredData[i].mday}`
-        updatedTime.setAttribute('colspan', '2')
-        updatedTimeNameBox.append(updatedTime)
-
-        each_station.append(stationNameBox, addressNameBox, quantityNameBox, quantityBox, updatedTimeNameBox)
-
-        itemBox.append(each_station)
-
-        searchDistrict.value = ''
-        searchkeyword.value = ''
+      const quantityBox = document.createElement('tr')
+      const totalQuantity = document.createElement('td')
+      totalQuantity.textContent = filteredData[i].tot
+      totalQuantity.classList.add('setEven')
+      const availableQuantity = document.createElement('td')
+      availableQuantity.textContent = filteredData[i].sbi
+      if (filteredData[i].sbi === 0) {
+        availableQuantity.classList.add('unavailable')
       }
+      availableQuantity.classList.add('setEven', 'addBorder')
+      quantityBox.append(totalQuantity,availableQuantity)
+
+      const updatedTimeNameBox = document.createElement('tr')
+      const updatedTime = document.createElement('td')
+      updatedTime.textContent = `資料更新時間 ${filteredData[i].mday}`
+      updatedTime.setAttribute('colspan', '2')
+      updatedTimeNameBox.append(updatedTime)
+
+      each_station.append(stationNameBox, addressNameBox, quantityNameBox, quantityBox, updatedTimeNameBox)
+
+      itemsBox.append(each_station)
     }
+    if (itemsBox.textContent === '') {
+      alert('抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字')
+    }
+    searchDistrict.value = ''
+    searchkeyword.value = ''
+  }
 
-    searchBtn.addEventListener('click', displaySpot)
-
-    
+  searchBtn.addEventListener('click', displaySpot)
 })
 
 // act: "1"
