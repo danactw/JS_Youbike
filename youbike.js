@@ -33,8 +33,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
       return rawData.filter(spot => {
         if (district && keyword==='') {
           return spot.sarea === district
-        } else {
+        } else if (district==='' && keyword){
           return spot.ar.includes(keyword)
+        } else {
+          return spot.sarea === district && spot.ar.includes(keyword)
         }
       })
     }
