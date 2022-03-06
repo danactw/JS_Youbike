@@ -28,7 +28,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     function findMatch(district, keyword, rawData) {
       return rawData.filter(spot => {
-        if (district && keyword==='') {
+        if (district === '' && keyword ==='') {
+          itemBox.textContent = '請選擇行政區或輸入街道關鍵字'
+          // alert('請選擇行政區或輸入街道關鍵字')
+          // 為什麼使用alert會無限迴圈??
+        } else if (district && keyword==='') {
           return spot.sarea === district
         } else {
           return spot.ar.includes(keyword)
@@ -37,7 +41,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     function displaySpot(e){
+      itemBox.textContent = ''
       const filteredData = findMatch(searchDistrict.value, searchkeyword.value, rawData)
+      // if (filteredData.length === 0) {
+      //   itemBox.textContent = `抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字`
+      // }
+      // 為什麼會吃掉在findMatch裡面itemBox.textContent = '請選擇行政區或輸入街道關鍵字'的結果？？
       for (let i = 0; i < filteredData.length; i++) {
         const each_station = document.createElement('table')
         each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
@@ -82,6 +91,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         each_station.append(stationNameBox, addressNameBox, quantityNameBox, quantityBox, updatedTimeNameBox)
 
         itemBox.append(each_station)
+
+        searchDistrict.value = ''
+        searchkeyword.value = ''
       }
     }
 
