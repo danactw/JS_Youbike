@@ -1,0 +1,131 @@
+:root{
+  --col-gap:10px;
+}
+
+.container{
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+}
+
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc( var(--col-gap) * -1 );
+  margin-right: calc( var(--col-gap) * -1 );
+}
+
+[class*="col-"] {
+  box-sizing: border-box; 
+  padding: 0 var(--col-gap);
+}
+
+.col-1{width: 8.333333%;  }
+.col-2{width: 16.66666%;  }
+.col-3{width: 25%;        }
+.col-4{width: 33.333333%; }
+.col-5{width: 41.666666%; }
+.col-6{width: 50%;        }
+.col-7{width: 58.333333%; }
+.col-8{width: 66.666666%; }
+.col-9{width: 75%;        }
+.col-10{width: 83.333333%;}
+.col-11{width: 91.666666%;}
+.col-12{width: 100%;      }
+
+img{
+  width: 100%;
+}
+
+@media screen and (min-width:768px){
+  .col-md-1{width: 8.333333%;  }
+  .col-md-2{width: 16.66666%;  }
+  .col-md-3{width: 25%;        }
+  .col-md-4{width: 33.333333%; }
+  .col-md-5{width: 41.666666%; }
+  .col-md-6{width: 50%;        }
+  .col-md-7{width: 58.333333%; }
+  .col-md-8{width: 66.666666%; }
+  .col-md-9{width: 75%;        }
+  .col-md-10{width: 83.333333%;}
+  .col-md-11{width: 91.666666%;}
+  .col-md-12{width: 100%;      }
+}
+
+@media screen and (min-width:1024px){
+  .col-lg-1{width: 8.333333%;  }
+  .col-lg-2{width: 16.66666%;  }
+  .col-lg-3{width: 25%;        }
+  .col-lg-4{width: 33.333333%; }
+  .col-lg-5{width: 41.666666%; }
+  .col-lg-6{width: 50%;        }
+  .col-lg-7{width: 58.333333%; }
+  .col-lg-8{width: 66.666666%; }
+  .col-lg-9{width: 75%;        }
+  .col-lg-10{width: 83.333333%;}
+  .col-lg-11{width: 91.666666%;}
+  .col-lg-12{width: 100%;      }
+}
+
+@media screen and (min-width:1200px){
+  .col-xl-1{width: 8.333333%;  }
+  .col-xl-2{width: 16.66666%;  }
+  .col-xl-3{width: 25%;        }
+  .col-xl-4{width: 33.333333%; }
+  .col-xl-5{width: 41.666666%; }
+  .col-xl-6{width: 50%;        }
+  .col-xl-7{width: 58.333333%; }
+  .col-xl-8{width: 66.666666%; }
+  .col-xl-9{width: 75%;        }
+  .col-xl-10{width: 83.333333%;}
+  .col-xl-11{width: 91.666666%;}
+  .col-xl-12{width: 100%;      }
+}
+
+
+.search{
+  width: 500px;
+  margin: 30px auto;
+}
+
+#search_input_disc {
+  /* width: 300px; */
+  height: 30px;
+  border-radius: 5px;
+}
+
+#search_input_txt {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  padding: 0;
+  border-width: 1px;
+}
+
+#searchbtn {
+  height: 30px;
+  border-radius: 5px;
+}
+
+.eachStation {
+  width: 380px;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+tr {
+  line-height: 25px;
+}
+
+td {
+  text-align: center;
+  padding: 0 5px;
+}
+
+.stationName {
+  font-weight: bolder;
+}
+
+.setEven {
+  width: 50%;
+}

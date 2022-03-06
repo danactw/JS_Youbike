@@ -6,23 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Youbike</title>
   <link rel="stylesheet" href="reset.css">
-  <script src="jQuery3.6.0.js"></script>
-  <style>
-    .youbike-list{
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .each_station{
-      width: 500px;
-      margin: 10px;
-      padding: 5px;
-      border: 1px solid gray;
-      border-radius: 5px;
-    }
-    .each_station li{
-      line-height: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="youbike.css">
 </head>
 <body>
   <div class="search">
@@ -41,16 +25,14 @@
       <option value="北投區">北投區</option>
       <option value="文山區">文山區</option>
     </select>
-    <div class="buttons">
+      <input id="search_input_txt" type="text" placeholder="(選填) 地址關鍵字" />
       <button id="searchbtn">Search</button>
+  </div>
+
+  <div class='youbike_list container'>
+    <div class="row" id="itemBox">
     </div>
   </div>
-
-
-  <div class='youbike_list'>
-
-  </div>
-
 
   <script src="youbike.js"></script>
 </body>

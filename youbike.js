@@ -1,59 +1,102 @@
-const youbike_list = document.querySelector('.youbike_list')
-const searchbtn = document.querySelector('#searchbtn')
+document.addEventListener('DOMContentLoaded', ()=>{
+  const url = 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json'
+  const rawData = []
+  const searchDistrict = document.querySelector('#search_input_disc')
+  const itemBox = document.querySelector('#itemBox')
 
-const Y = fetch('https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json')
-.then(function(response){
-  return response.json();
-})
+  // fetch(url)
+  //   .then(res => res.json())
+  //   .then (data => {
+  //     rawData.push(...data)
+  //   })
 
-Y.then(function(result){
-  //searchbtn按下時，所選到的行政區
-  searchbtn.addEventListener("click", function(e) {
-    const search_input_disc = document.querySelector('#search_input_disc')
-    const input_disc_value = search_input_disc.value;
-    // 只顯示被選取到的行政區資訊
-    const selected_area = result.filter(function(e){
-      if (input_disc_value === e.sarea){
-        return e
+    async function fetchData() {
+      try{
+        const response = await fetch(url)
+        const data = await response.json()
+        rawData.push(...data)
+      } catch (err) {
+        console.log(err);
       }
-    })
-    // 
-    selected_area.forEach(function(station_info){
-      const each_station = document.createElement('div')
-      each_station.className = 'each_station'
-      youbike_list.append(each_station)
-      //場站站名  
-      const name = document.createElement('li')
-      name.textContent = `場站站名：${station_info.sna}`
-      each_station.append(name)
-      //場站區域
-      const area = document.createElement('li')
-      area.textContent = `場站區域：${station_info.sarea}`
-      each_station.append(area)
-      //場站地址
-      const address = document.createElement('li')
-      address.textContent = `場站地址：${station_info.ar}`
-      each_station.append(address)
-      //可用Youbike
-      const bike_available = document.createElement('li')
-      bike_available.textContent = `可用Youbike：${station_info.sbi}`
-      each_station.append(bike_available)
-      //停車格總數
-      const parking = document.createElement('li')
-      parking.textContent = `停車格總數：${station_info.tot}`
-      each_station.append(parking)
-      //可用停車格
-      const parking_available = document.createElement('li')
-      parking_available.textContent = `可用停車格：${station_info.bemp}`
-      each_station.append(parking_available)
-    })
-  })
+    }
+    
+    fetchData()
+    
+    // console.log(rawData);
+
+    function findMatch(input, rawData) {
+      return rawData.filter(spot => spot.sarea === input)
+    }
+
+    function displaySpot(){
+      const filteredData = findMatch(this.value, rawData)
+      for (let i = 0; i < filteredData.length; i++) {
+        const each_station = document.createElement('table')
+        each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
+
+        const stationNameBox = document.createElement('tr')
+        const stationName = document.createElement('td')
+        stationName.textContent = filteredData[i].sna.slice(11)
+        stationName.setAttribute('colspan', '2')
+        stationName.classList.add('stationName')
+        stationNameBox.append(stationName)
+
+        const addressNameBox = document.createElement('tr')
+        const addressName = document.createElement('td')
+        addressName.textContent = filteredData[i].ar
+        addressName.setAttribute('colspan', '2')
+        addressNameBox.append(addressName)
+
+        const quantityNameBox = document.createElement('tr')
+        const totalQuantityName = document.createElement('td')
+        totalQuantityName.textContent = '總停車格'
+        totalQuantityName.classList.add('setEven')
+        const availableQuantityName = document.createElement('td')
+        availableQuantityName.textContent = '目前車輛數量'
+        availableQuantityName.classList.add('setEven')
+        quantityNameBox.append(totalQuantityName,availableQuantityName)
+
+        const quantityBox = document.createElement('tr')
+        const totalQuantity = document.createElement('td')
+        totalQuantity.textContent = filteredData[i].tot
+        totalQuantity.classList.add('setEven')
+        const availableQuantity = document.createElement('td')
+        availableQuantity.textContent = filteredData[i].sbi
+        availableQuantity.classList.add('setEven')
+        quantityBox.append(totalQuantity,availableQuantity)
+
+        const updatedTimeNameBox = document.createElement('tr')
+        const updatedTime = document.createElement('td')
+        updatedTime.textContent = `資料更新時間 ${filteredData[i].mday}`
+        updatedTime.setAttribute('colspan', '2')
+        updatedTimeNameBox.append(updatedTime)
+
+        each_station.append(stationNameBox, addressNameBox, quantityNameBox, quantityBox, updatedTimeNameBox)
+
+        itemBox.append(each_station)
+      }
+    }
+
+    searchDistrict.addEventListener('change', displaySpot)
+
+    
 })
 
-// sno(站點代號) =>station
-// sna(場站中文名稱) =>name
-// tot(場站總停車格) =>parking_total_num
-// sbi(場站目前車輛數量) =>bike_available_num
-// sarea(場站區域) =>area
-// ar(地點) =>address
-// bemp(空位數量) =>parking_available_num
+// act: "1"
+// ar: "復興南路二段235號前"
+// aren: "No.235， Sec. 2， Fuxing S. Rd."
+// bemp: 23
+// infoDate: "2022-03-05"
+// infoTime: "2022-03-05 17:56:11"
+// lat: 25.02605
+// lng: 121.5436
+// mday: "2022-03-05 17:56:11"
+// sarea: "大安區"
+// sareaen: "Daan Dist."
+// sbi: 5
+// sna: "YouBike2.0_捷運科技大樓站"
+// snaen: "YouBike2.0_MRT Technology Bldg. Sta."
+// sno: "500101001"
+// srcUpdateTime: "2022-03-05 17:58:12"
+// tot: 28
+// updateTime: "2022-03-05 17:58:23"
