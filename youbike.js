@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const url = 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json'
   const rawData = []
   const searchDistrict = document.querySelector('#search_input_disc')
+  const searchkeyword = document.querySelector('#search_input_txt')
   const itemBox = document.querySelector('#itemBox')
+  const searchBtn = document.querySelector('#searchbtn')
 
   // fetch(url)
   //   .then(res => res.json())
@@ -24,12 +26,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     // console.log(rawData);
 
-    function findMatch(input, rawData) {
-      return rawData.filter(spot => spot.sarea === input)
+    function findMatch(district, keyword, rawData) {
+      return rawData.filter(spot => {
+        if (district && keyword==='') {
+          return spot.sarea === district
+        } else {
+          return spot.ar.includes(keyword)
+        }
+      })
     }
 
-    function displaySpot(){
-      const filteredData = findMatch(this.value, rawData)
+    function displaySpot(e){
+      const filteredData = findMatch(searchDistrict.value, searchkeyword.value, rawData)
       for (let i = 0; i < filteredData.length; i++) {
         const each_station = document.createElement('table')
         each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
@@ -77,7 +85,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
     }
 
-    searchDistrict.addEventListener('change', displaySpot)
+    searchBtn.addEventListener('click', displaySpot)
 
     
 })
