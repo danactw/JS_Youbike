@@ -48,8 +48,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // }
     // 為什麼會吃掉在findMatch裡面itemsBox.textContent = '請選擇行政區或輸入街道關鍵字'的結果？？
     for (let i = 0; i < filteredData.length; i++) {
+      const eachStationContainer = document.createElement('div')
+      eachStationContainer.classList.add('col-12','col-md-6', 'col-lg-4')
+      
       const each_station = document.createElement('table')
-      each_station.classList.add('col-12','col-md-6', 'col-lg-4', 'eachStation')
+      each_station.classList.add('eachStation')
 
       const stationNameBox = document.createElement('tr')
       const stationName = document.createElement('td')
@@ -93,8 +96,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
       updatedTimeNameBox.append(updatedTime)
 
       each_station.append(stationNameBox, addressNameBox, quantityNameBox, quantityBox, updatedTimeNameBox)
-
-      itemsBox.append(each_station)
+      eachStationContainer.append(each_station)
+      itemsBox.append(eachStationContainer)
     }
     if (itemsBox.textContent === '') {
       alert('抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字')
