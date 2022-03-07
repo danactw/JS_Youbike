@@ -167,44 +167,44 @@ td {
   font-weight: bolder;
 }
 
+.linkToMap {
+  color:#006400 ;
+  text-decoration: underline;
+}
+
 #map {
   height: 100%;
-  /* The height is 400 pixels */
   width: 100%;
-  /* The width is the width of the web page */
 }
 
 #myModal {  
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 25%;
   top: 25%;
-  width: 50%; /* Full width */
-  height: 50%; /* Full height */
+  width: 50%;
+  height: 50%;
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  /* margin: 15% auto; 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%;
 }
 
-/* The Close Button */
 .close {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;
   position: absolute;
   z-index: 10;
-  right: 0;
+  right: 5px;
 }
 
 .close:hover,

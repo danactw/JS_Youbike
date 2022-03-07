@@ -5,12 +5,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const searchkeyword = document.querySelector('#search_input_txt')
   const itemsBox = document.querySelector('#itemsBox')
   const searchBtn = document.querySelector('#searchbtn')
-
-  // fetch(url)
-  //   .then(res => res.json())
-  //   .then (data => {
-  //     rawData.push(...data)
-  //   })
+  var modal = document.getElementById("myModal")
+  var closeBtn = document.getElementsByClassName("close")[0]
 
   async function fetchData() {
     try{
@@ -23,8 +19,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
     
   fetchData()
-    
-  // console.log(rawData);
 
   function findMatch(district, keyword, rawData) {
     if (district === '' && keyword ==='') {
@@ -45,10 +39,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   function displaySpot(e){
     itemsBox.textContent = ''
     const filteredData = findMatch(searchDistrict.value, searchkeyword.value, rawData)
-    // if (filteredData.length === 0) {
-    //   itemsBox.textContent = `抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字`
-    // }
-    // 為什麼會吃掉在findMatch裡面itemsBox.textContent = '請選擇行政區或輸入街道關鍵字'的結果？？
     for (let i = 0; i < filteredData.length; i++) {
       const eachStationContainer = document.createElement('div')
       eachStationContainer.classList.add('col-12','col-md-6', 'col-lg-4')
@@ -65,7 +55,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
       const addressNameBox = document.createElement('tr')
       const addressName = document.createElement('td')
-      addressName.textContent = `(${filteredData[i].sarea}) ${filteredData[i].ar}`
+      const addressNameLink = document.createElement('a')
+      const districtName = `(${filteredData[i].sarea})`
+      addressNameLink.textContent = filteredData[i].ar
+      addressNameLink.setAttribute('data-lat', filteredData[i].lat)
+      addressNameLink.setAttribute('data-lng', filteredData[i].lng)
+      addressNameLink.classList.add('linkToMap')
+      addressName.textContent = `${districtName} `
+      addressName.append(addressNameLink)
       addressName.setAttribute('colspan', '2')
       addressName.classList.add('addressName')
       addressNameBox.append(addressName)
@@ -104,51 +101,41 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (itemsBox.textContent === '') {
       alert('抱歉！查無符合條件之站名。 請重新選擇行政區或輸入街道關鍵字')
     }
+
     searchDistrict.value = ''
     searchkeyword.value = ''
+
+    const linksToMap = document.querySelectorAll('.linkToMap')
+    linksToMap.forEach((link)=>{
+      link.addEventListener('click',displayModal )
+    })
+
+    closeBtn.addEventListener('click', closeModal)
+  }
+
+  function displayModal() {
+    const latitude = Number(this.dataset.lat)
+    const longtitude = Number(this.dataset.lng)
+    modal.style.display = "block"
+    initMap(latitude, longtitude)
+  }
+
+  function closeModal(e) {
+    if (this.className === 'close')
+    modal.style.display = "none"
   }
 
   searchBtn.addEventListener('click', displaySpot)
-
-  // Get the modal
-  var modal = document.getElementById("myModal");
-
-  // Get the button that opens the modal
-  var btn = document.getElementById("myBtn");
-
-  // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-
-  // When the user clicks on the button, open the modal
-  btn.onclick = function() {
-    modal.style.display = "block";
-  }
-
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-
 })
 
-function initMap() {
-  // The location of Uluru
-  const uluru = { lat: 25.02605, lng: 121.5436 };
-  // The map, centered at Uluru
+function initMap(latitude, longtitude) {
+  const location = { lat: latitude, lng: longtitude };
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 15,
-    center: uluru,
+    zoom: 18,
+    center: location,
   });
-  // The marker, positioned at Uluru
   const marker = new google.maps.Marker({
-    position: uluru,
+    position: location,
     map: map,
   });
 }
